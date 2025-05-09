@@ -36,5 +36,25 @@ class CustomersController extends Controller
             return $result;
             
         }
-    }
+        public function login(Request $req){
+            $found = User::where('email','=',$req->email)->first();
+            if(!$found){
+                $result['status']='failed';
+                $result['message']='account not found';
+                return $result;
+            }else{
+                if(Hash::check($req->password,$found->password)){
+                    $token= $found->createToken($found->email);
+                    
+                    $result['status']='success';
+                    $result['token']=$token->plainTextToken;
+                    return $result;
+                }else{
+                    $result['status']='success';
+                    $result['message']= 'email or password incorrect';
+    
+                    return $result;
+                }
+            }
+        }
 }
