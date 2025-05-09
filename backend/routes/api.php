@@ -22,3 +22,4 @@ Route::post('/user/sign-up',[UserController::class,'signUp']);
 Route::get('/testing',function(){
    return 'tested';
 });
+
